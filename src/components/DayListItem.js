@@ -1,6 +1,6 @@
 import React from 'react';
 import './DayListItem.scss';
-import classNames from 'classnames';
+import classnames from 'classnames';
 
 const DayListItem = function (props) {
   const { name, spots, selected, setDay } = props;
@@ -17,7 +17,7 @@ const DayListItem = function (props) {
     return <h3> {spots} spots remaining</h3>;
   };
 
-  let dayClass = classNames('day-list__item ', {
+  let dayClass = classnames('day-list__item ', {
     'day-list__item--selected': selected,
     'day-list__item--full': spots === 0,
   });
