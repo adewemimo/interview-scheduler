@@ -3,7 +3,7 @@ import './DayListItem.scss';
 import classnames from 'classnames';
 
 const DayListItem = function (props) {
-  const { name, spots, selected, setDay } = props;
+  const { name, spots, selected, setDays } = props;
 
   const formatSpots = () => {
     if (spots === 0) {
@@ -22,7 +22,7 @@ const DayListItem = function (props) {
     'day-list__item--full': spots === 0,
   });
   return (
-    <li onClick={setDay} className={dayClass}>
+    <li onClick={setDays} className={dayClass}>
       <h2 className="text--regular">{name}</h2>
       {formatSpots()}
     </li>
