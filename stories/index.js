@@ -87,10 +87,10 @@ storiesOf('DayList', module)
     backgrounds: [{ name: 'dark', value: '#222f3e', default: true }],
   })
   .add('Monday', () => (
-    <DayList days={days} day={'Monday'} setDays={action('setDays')} />
+    <DayList days={days} day={'Monday'} setDay={action('setDay')} />
   ))
   .add('Tuesday', () => (
-    <DayList days={days} day={'Tuesday'} setDays={action('setDays')} />
+    <DayList days={days} day={'Tuesday'} setDay={action('setDay')} />
   ));
 
 storiesOf('InterviewerListItem', module)
