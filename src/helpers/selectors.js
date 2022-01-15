@@ -43,3 +43,25 @@ export function getInterview(state, interview) {
   });
   return finalResult;
 }
+
+export function getInterviewersForDay(state, day) {
+  //... returns an array of interviews for that day
+  let stateCopy = { ...state };
+  if (stateCopy.days.length === 0) {
+    return [];
+  }
+  let result = stateCopy.days.filter(d => d.name === day);
+  if (result.length === 0) {
+    return [];
+  }
+  let interviewersForDay = result[0].interviewers;
+  let interviewersKeys = Object.keys(stateCopy.interviewers);
+  let finalResult = [];
+
+  for (let interviewerID of interviewersForDay) {
+    if (interviewersKeys.includes(interviewerID.toString())) {
+      finalResult.push(stateCopy.interviewers[interviewerID.toString()]);
+    }
+  }
+  return finalResult;
+}
