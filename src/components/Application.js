@@ -197,10 +197,35 @@ export default function Application(props) {
       appointments,
     }))
 
-    console.log("interview", interview);
-
     axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})
-    .then(res => console.log(res))
+    .then(res => console.log('database response',res))
+    .catch(error => {
+      console.log("Error Message:", error)
+    })
+  }
+
+  function cancelInterview(id){
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    setState(prev => ({
+      ...prev,
+      appointments,
+    }))
+
+  axios.delete(`http://localhost:8001/api/appointments/${id}`)
+  .then(res => console.log(res))
+  // .catch(error => {
+  //   console.log("Error:", error)
+  // })
+
   }
 
   const dailyAppointments = getAppointmentsForDay(state, state.day);
@@ -215,6 +240,7 @@ export default function Application(props) {
         interview={interview}
         interviewers={interviewers}
         bookInterview={bookInterview}
+        cancelInterview ={cancelInterview}
       />
     );
   });
