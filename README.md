@@ -21,3 +21,8 @@ npm test
 ```sh
 npm run storybook
 ```
+
+## Connect to the server to get Data
+
+Clone and run scheduler-api to retrieve data for this frontend. Refer to scheduler-api repo on instructions. 
+

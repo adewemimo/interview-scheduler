@@ -38,7 +38,6 @@ const Appointment = function (props) {
           console.log('saving error', error)
           transition(ERROR_SAVE, true)
         });
-    // transition(SHOW);
   }
 
   function confirmDelete() {
@@ -97,14 +96,14 @@ const Appointment = function (props) {
       {mode === ERROR_SAVE && (
         <Error
           message="Could not save appointment."
-          onClose={() => transition(SHOW)}
+          onClose={() => back()}
         />
       )}
 
       {mode === ERROR_DELETE && (
         <Error
           message="Could not delete appointment."
-          onClose={() => transition(SHOW)}
+          onClose={() => back()}
         />
       )}
       {/* {props.interview ? (
