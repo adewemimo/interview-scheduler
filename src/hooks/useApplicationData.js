@@ -1,12 +1,13 @@
-import { useState, useEffect, useReducer } from 'react';
+import {useEffect, useReducer } from 'react';
 import axios from 'axios';
+
 
 export function useApplicationData() {
   //Logic to use useReducer in place of setState
 
   const SET_DAY = 'SET_DAY';
   const SET_APPLICATION_DATA = 'SET_APPLICATION_DATA';
-  const SET_INTERVIEW = 'SET_INTERVIEW';
+  const SET_INTERVIEW = "SET_INTERVIEW";
 
   const initialState = {
     day: 'Monday',
@@ -77,6 +78,20 @@ export function useApplicationData() {
   const setDay = day => dispatch({ type: SET_DAY, day });
 
   useEffect(() => {
+      //connect to server
+      const url = "ws://localhost:8001/"
+    const webSocket = new WebSocket(url);
+    //send message to server
+    webSocket.onopen = function (event) {
+        webSocket.send("ping");
+      };
+      webSocket.onclose = () => console.log('ws closed');
+
+      // message received from the server
+      webSocket.onmessage = function (event) {
+        console.log(`Message Received: , ${JSON.parse(event.data)}`);
+      }
+
     const daysURL = 'http://localhost:8001/api/days';
     const appointmentsURL = 'http://localhost:8001/api/appointments';
     const interviewersURL = 'http://localhost:8001/api/interviewers';
@@ -97,6 +112,9 @@ export function useApplicationData() {
         interviewers,
       });
     });
+    return function () {
+        webSocket.close()
+      };
   }, []);
 
   function bookInterview(id, interview) {

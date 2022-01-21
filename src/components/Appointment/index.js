@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './styles.scss';
 import Header from './Header';
 import Show from './Show';
@@ -35,9 +35,9 @@ const Appointment = function (props) {
       .bookInterview(props.id, interview)
       .then(() => transition(SHOW))
       .catch(error => {
-          console.log('saving error', error)
-          transition(ERROR_SAVE, true)
-        });
+        console.log('saving error', error);
+        transition(ERROR_SAVE, true);
+      });
   }
 
   function confirmDelete() {
@@ -49,12 +49,17 @@ const Appointment = function (props) {
       .catch(error => transition(ERROR_DELETE, true));
   }
 
+  useEffect(() => {
+    props.interview && mode === EMPTY && transition(SHOW);
+    props.interview === null && mode === SHOW && transition(EMPTY);
+  }, [props.interview, mode, transition]);
+
   return (
     <article className="appointment">
       <Header time={props.time} />
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
 
-      {mode === SHOW && (
+      {mode === SHOW && props.interview && (
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
@@ -94,17 +99,11 @@ const Appointment = function (props) {
       )}
 
       {mode === ERROR_SAVE && (
-        <Error
-          message="Could not save appointment."
-          onClose={() => back()}
-        />
+        <Error message="Could not save appointment." onClose={() => back()} />
       )}
 
       {mode === ERROR_DELETE && (
-        <Error
-          message="Could not delete appointment."
-          onClose={() => back()}
-        />
+        <Error message="Could not delete appointment." onClose={() => back()} />
       )}
       {/* {props.interview ? (
         <Show
