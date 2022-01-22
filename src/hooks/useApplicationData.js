@@ -75,8 +75,8 @@ export function useApplicationData() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const setDay = day => dispatch({ type: SET_DAY, day });
-
-  const webSocket = useRef(null);
+  const url = process.env.REACT_APP_WEBSOCKET_URL;
+  const webSocket = new WebSocket(url);
 
   useEffect(() => {
     const daysURL = 'http://localhost:8001/api/days';
@@ -101,22 +101,19 @@ export function useApplicationData() {
     });
 
     //connect to server
-    const url = process.env.REACT_APP_WEBSOCKET_URL;
-    webSocket.current = new WebSocket(url);
     //send message to server
-    webSocket.current.onopen = function (event) {
-      webSocket.current.send('ping');
+    webSocket.onopen = function (event) {
+      webSocket.send('ping');
     };
-    webSocket.current.onclose = () => console.log('ws closed');
-    const webSocketCurrent = webSocket.current;
+    webSocket.onclose = () => console.log('ws closed');
     return () => {
-      webSocketCurrent.close();
+      webSocket.close();
     };
   }, []);
 
   useEffect(() => {
     // message received from the server
-    webSocket.current.onmessage = function (event) {
+    webSocket.onmessage = function (event) {
         console.log('data',event.data);
         const data = JSON.parse(event.data)
       console.log(`Message Received: , ${JSON.parse(event.data)}`);
