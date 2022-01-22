@@ -40,6 +40,7 @@ export function getInterview(state, interview) {
         interviewer: interviewerDetails,
       };
     }
+    return appointment
   });
   return finalResult;
 }

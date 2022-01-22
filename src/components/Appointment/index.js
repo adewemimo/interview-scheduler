@@ -35,7 +35,6 @@ const Appointment = function (props) {
       .bookInterview(props.id, interview)
       .then(() => transition(SHOW))
       .catch(error => {
-        console.log('saving error', error);
         transition(ERROR_SAVE, true);
       });
   }
@@ -52,6 +51,8 @@ const Appointment = function (props) {
   useEffect(() => {
     props.interview && mode === EMPTY && transition(SHOW);
     props.interview === null && mode === SHOW && transition(EMPTY);
+    return () => {
+      };
   }, [props.interview, mode, transition]);
 
   return (
@@ -59,7 +60,7 @@ const Appointment = function (props) {
       <Header time={props.time} />
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
 
-      {mode === SHOW && props.interview && (
+      {props.interview && mode === SHOW && (
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}

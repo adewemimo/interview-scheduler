@@ -1,13 +1,12 @@
-import {useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useRef } from 'react';
 import axios from 'axios';
-
 
 export function useApplicationData() {
   //Logic to use useReducer in place of setState
 
   const SET_DAY = 'SET_DAY';
   const SET_APPLICATION_DATA = 'SET_APPLICATION_DATA';
-  const SET_INTERVIEW = "SET_INTERVIEW";
+  const SET_INTERVIEW = 'SET_INTERVIEW';
 
   const initialState = {
     day: 'Monday',
@@ -64,7 +63,7 @@ export function useApplicationData() {
         return {
           ...state,
           appointments,
-        //   updatedDays
+          //   updatedDays
         };
       }
       default:
@@ -77,21 +76,9 @@ export function useApplicationData() {
 
   const setDay = day => dispatch({ type: SET_DAY, day });
 
+  const webSocket = useRef(null);
+
   useEffect(() => {
-      //connect to server
-      const url = "ws://localhost:8001/"
-    const webSocket = new WebSocket(url);
-    //send message to server
-    webSocket.onopen = function (event) {
-        webSocket.send("ping");
-      };
-      webSocket.onclose = () => console.log('ws closed');
-
-      // message received from the server
-      webSocket.onmessage = function (event) {
-        console.log(`Message Received: , ${JSON.parse(event.data)}`);
-      }
-
     const daysURL = 'http://localhost:8001/api/days';
     const appointmentsURL = 'http://localhost:8001/api/appointments';
     const interviewersURL = 'http://localhost:8001/api/interviewers';
@@ -112,10 +99,34 @@ export function useApplicationData() {
         interviewers,
       });
     });
-    return function () {
-        webSocket.close()
-      };
+
+    //connect to server
+    const url = process.env.REACT_APP_WEBSOCKET_URL;
+    webSocket.current = new WebSocket(url);
+    //send message to server
+    webSocket.current.onopen = function (event) {
+      webSocket.current.send('ping');
+    };
+    webSocket.current.onclose = () => console.log('ws closed');
+    const webSocketCurrent = webSocket.current;
+    return () => {
+      webSocketCurrent.close();
+    };
   }, []);
+
+  useEffect(() => {
+    // message received from the server
+    webSocket.current.onmessage = function (event) {
+        console.log('data',event.data);
+        const data = JSON.parse(event.data)
+      console.log(`Message Received: , ${JSON.parse(event.data)}`);
+      if (data.type === SET_INTERVIEW){
+          console.log("Hello");
+          dispatch({ type: data.type, id: data.id, interview: data.interview });
+      }
+    };
+
+  }, [state.appointments]);
 
   function bookInterview(id, interview) {
     for (let day of state.days) {

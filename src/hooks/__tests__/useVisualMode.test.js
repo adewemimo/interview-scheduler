@@ -52,6 +52,5 @@ test("useVisualMode should not return to previous mode if already at initial", (
   
     act(() => result.current.back());
     act(() => result.current.back());
-    console.log(result.current.mode);
     expect(result.current.mode).toBe(FIRST);
   });
