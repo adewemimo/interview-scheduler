@@ -22,7 +22,7 @@ const DayListItem = function (props) {
     'day-list__item--full': spots === 0,
   });
   return (
-    <li onClick={setDay} className={dayClass}>
+    <li onClick={setDay} className={dayClass} data-testid="day" >
       <h2 className="text--regular">{name}</h2>
       {formatSpots()}
     </li>
