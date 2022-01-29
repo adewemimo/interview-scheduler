@@ -47,12 +47,12 @@ function reducer(state, action) {
         const spots = updatedSpots(dayObj, appointments);
         const day = {...dayObj, spots};
 
-        const UpdatedDays = state.days.map(d => day.name === state.day ? day : d);
+        const updatedDays = state.days.map(d => day.name === state.day ? day : d);
 
         return {
           ...state,
           appointments,
-          UpdatedDays
+          updatedDays
         };
       }
       default:

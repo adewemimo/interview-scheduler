@@ -17,15 +17,15 @@ export function useApplicationData() {
     interviewers: {},
   };
 
-  const updatedSpots = (day, appointments) => {
-    let spots = 0;
-    for (let id of day.appointments){
-    const appointment = appointments[id];
-    if (!appointment.interview){
-      spots++;
-    }
-    return spots;
-  }}
+  // const updatedSpots = (day, appointments) => {
+  //   let spots = 0;
+  //   for (let id of day.appointments){
+  //   const appointment = appointments[id];
+  //   if (!appointment.interview){
+  //     spots++;
+  //   }
+  //   return spots;
+  // }}
 
   // function reducer(state, action) {
   //   switch (action.type) {
@@ -81,9 +81,10 @@ export function useApplicationData() {
   const webSocket = new WebSocket(url);
 
   useEffect(() => {
-    const daysURL = 'http://localhost:8001/api/days';
-    const appointmentsURL = 'http://localhost:8001/api/appointments';
-    const interviewersURL = 'http://localhost:8001/api/interviewers';
+    const daysURL = '/api/days';
+    const appointmentsURL = '/api/appointments';
+    const interviewersURL = '/api/interviewers';
+
     Promise.all([
       axios.get(daysURL),
       axios.get(appointmentsURL),
@@ -102,8 +103,8 @@ export function useApplicationData() {
       });
     });
 
-    //connect to server
-    //send message to server
+    // connect to server
+    // send message to server
     webSocket.onopen = function (event) {
       webSocket.send('ping');
     };
@@ -124,7 +125,7 @@ export function useApplicationData() {
       }
     };
 
-  }, [state]);
+  }, [state.appointments, state.days.spots]);
 
   function bookInterview(id, interview) {
 
