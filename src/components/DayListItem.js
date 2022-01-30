@@ -15,15 +15,14 @@ const Spots = ({ spots }) => {
 };
 
 const DayListItem = ({ name, spots, selected, setDay }) => {
-
   let dayClass = classnames('day-list__item ', {
     'day-list__item--selected': selected,
     'day-list__item--full': spots === 0,
   });
   return (
-    <li onClick={setDay} className={dayClass} data-testid="day" >
+    <li onClick={setDay} className={dayClass} data-testid="day">
       <h2 className="text--regular">{name}</h2>
-      <Spots spots={spots}/>
+      <Spots spots={spots} />
     </li>
   );
 };

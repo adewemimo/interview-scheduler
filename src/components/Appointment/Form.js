@@ -1,46 +1,46 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import InterviewerList from 'components/InterviewerList';
 import Button from 'components/Button';
 
-const Form = function(props) {
+const Form = function (props) {
   const { interviewers, onSave, onCancel } = props;
-  const [name, setName] = useState(props.name || "");
-  const [interviewer,setInterviewer] = useState(props.interviewer || null);
-  const [error, setError] = useState("");
+  const [name, setName] = useState(props.name || '');
+  const [interviewer, setInterviewer] = useState(props.interviewer || null);
+  const [error, setError] = useState('');
 
-  function reset(){
+  function reset() {
     setInterviewer(null);
-    setName("")
+    setName('');
   }
   function cancel() {
-      reset();
-      onCancel();
+    reset();
+    onCancel();
   }
 
-  function handleSubmit(event){
+  function handleSubmit(event) {
     event.preventDefault();
   }
 
   function validate() {
-    if (name === "") {
-      setError("Student name cannot be blank");
+    if (name === '') {
+      setError('Student name cannot be blank');
       return;
     }
-    setError("");
+    setError('');
     onSave(name, interviewer);
   }
- 
+
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
-        <form autoComplete="off"  onSubmit={handleSubmit}>
+        <form autoComplete="off" onSubmit={handleSubmit}>
           <input
             className="appointment__create-input text--semi-bold"
             name="name"
             type="text"
             value={name}
             placeholder="Enter Student Name"
-            onChange={(event) => setName(event.target.value)}
+            onChange={event => setName(event.target.value)}
             data-testid="student-name-input"
             /*
           This must be a controlled component
@@ -59,7 +59,7 @@ const Form = function(props) {
           <Button danger onClick={cancel}>
             Cancel
           </Button>
-          <Button confirm onClick={(event)=>validate()}>
+          <Button confirm onClick={event => validate()}>
             Save
           </Button>
         </section>

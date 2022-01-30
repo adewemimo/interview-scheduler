@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Header = function (props) {
-    const {time} = props;
+  const { time } = props;
   return (
     <header className="appointment__time">
       <h4 className="text--semi-bold">{time}</h4>

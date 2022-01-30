@@ -51,8 +51,7 @@ const Appointment = function (props) {
   useEffect(() => {
     props.interview && mode === EMPTY && transition(SHOW);
     props.interview === null && mode === SHOW && transition(EMPTY);
-    return () => {
-      };
+    return () => {};
   }, [props.interview, mode, transition]);
 
   return (
@@ -106,17 +105,8 @@ const Appointment = function (props) {
       {mode === ERROR_DELETE && (
         <Error message="Could not delete appointment." onClose={() => back()} />
       )}
-      {/* {props.interview ? (
-        <Show
-          student={props.interview.student}
-          interviewer={props.interview.interviewer}
-        />
-      ) : (
-        <Empty />
-      )} */}
     </article>
   );
 };
-
 
 export default Appointment;

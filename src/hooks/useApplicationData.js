@@ -4,8 +4,8 @@ import axios from 'axios';
 import reducer, {
   SET_DAY,
   SET_APPLICATION_DATA,
-  SET_INTERVIEW
-} from "reducers/application";
+  SET_INTERVIEW,
+} from 'reducers/application';
 
 export function useApplicationData() {
   //Logic to use useReducer in place of setState
@@ -16,7 +16,7 @@ export function useApplicationData() {
     appointments: {},
     interviewers: {},
   };
-  
+
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const setDay = day => dispatch({ type: SET_DAY, day });
@@ -60,25 +60,22 @@ export function useApplicationData() {
   useEffect(() => {
     // message received from the server
     webSocket.onmessage = function (event) {
-        // console.log('data',event.data);
-        const data = JSON.parse(event.data)
+      // console.log('data',event.data);
+      const data = JSON.parse(event.data);
       // console.log(`Message Received: , ${JSON.parse(event.data)}`);
-      if (data.type === SET_INTERVIEW){
-          dispatch({ type: data.type, id: data.id, interview: data.interview });
+      if (data.type === SET_INTERVIEW) {
+        dispatch({ type: data.type, id: data.id, interview: data.interview });
       }
     };
-
   }, [state.appointments, state.days.spots, SET_INTERVIEW]);
 
   function bookInterview(id, interview) {
-
     return axios
       .put(`/api/appointments/${id}`, { interview })
       .then(res => dispatch({ type: SET_INTERVIEW, id, interview }));
   }
 
   function cancelInterview(id) {
-
     return axios
       .delete(`/api/appointments/${id}`)
       .then(res => dispatch({ type: SET_INTERVIEW, id, interview: null }));
