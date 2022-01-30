@@ -9,7 +9,7 @@ const updatedSpots = (day, appointments) => {
     for (const id of day.appointments){
     const appointment = appointments[id];
     if (!appointment.interview){
-      spots++;
+      spots = spots + 1;
     }
   }
   return spots;
@@ -46,7 +46,6 @@ function reducer(state, action) {
 
         const dayObj = state.days.find(day => day.name === state.day);
         const spots = updatedSpots(dayObj, appointments);
-        console.log("spots----",spots);
         const day = {...dayObj, spots};
 
         const updatedDays = state.days.map(d => d.name === state.day ? day : d);
@@ -54,7 +53,7 @@ function reducer(state, action) {
         return {
           ...state,
           appointments,
-          updatedDays
+          days: updatedDays
         };
       }
       default:

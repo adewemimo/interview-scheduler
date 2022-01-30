@@ -16,17 +16,6 @@ export function useApplicationData() {
     appointments: {},
     interviewers: {},
   };
-
-  // const updatedSpots = (day, appointments) => {
-  //   let spots = 0;
-  //   for (let id of day.appointments){
-  //   const appointment = appointments[id];
-  //   if (!appointment.interview){
-  //     spots++;
-  //   }
-  //   return spots;
-  // }}
-
   
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -79,19 +68,19 @@ export function useApplicationData() {
       }
     };
 
-  }, [state.appointments, state.days.spots]);
+  }, [state.appointments, state.days.spots, SET_INTERVIEW]);
 
   function bookInterview(id, interview) {
 
     return axios
-      .put(`http://localhost:8001/api/appointments/${id}`, { interview })
+      .put(`/api/appointments/${id}`, { interview })
       .then(res => dispatch({ type: SET_INTERVIEW, id, interview }));
   }
 
   function cancelInterview(id) {
 
     return axios
-      .delete(`http://localhost:8001/api/appointments/${id}`)
+      .delete(`/api/appointments/${id}`)
       .then(res => dispatch({ type: SET_INTERVIEW, id, interview: null }));
   }
 
