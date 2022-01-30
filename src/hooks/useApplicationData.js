@@ -60,9 +60,9 @@ export function useApplicationData() {
   useEffect(() => {
     // message received from the server
     webSocket.onmessage = function (event) {
-        console.log('data',event.data);
+        // console.log('data',event.data);
         const data = JSON.parse(event.data)
-      console.log(`Message Received: , ${JSON.parse(event.data)}`);
+      // console.log(`Message Received: , ${JSON.parse(event.data)}`);
       if (data.type === SET_INTERVIEW){
           dispatch({ type: data.type, id: data.id, interview: data.interview });
       }
