@@ -6,13 +6,14 @@ export const SET_INTERVIEW = 'SET_INTERVIEW';
 
 const updatedSpots = (day, appointments) => {
     let spots = 0;
-    for (let id of day.appointments){
+    for (const id of day.appointments){
     const appointment = appointments[id];
     if (!appointment.interview){
       spots++;
     }
-    return spots;
-  }}
+  }
+  return spots;
+}
 
 function reducer(state, action) {
     switch (action.type) {
@@ -45,9 +46,10 @@ function reducer(state, action) {
 
         const dayObj = state.days.find(day => day.name === state.day);
         const spots = updatedSpots(dayObj, appointments);
+        console.log("spots----",spots);
         const day = {...dayObj, spots};
 
-        const updatedDays = state.days.map(d => day.name === state.day ? day : d);
+        const updatedDays = state.days.map(d => d.name === state.day ? day : d);
 
         return {
           ...state,

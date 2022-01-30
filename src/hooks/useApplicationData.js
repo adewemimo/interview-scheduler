@@ -27,53 +27,7 @@ export function useApplicationData() {
   //   return spots;
   // }}
 
-  // function reducer(state, action) {
-  //   switch (action.type) {
-  //     case SET_DAY:
-  //       return {
-  //         ...state,
-  //         day: action.day,
-  //       };
-  //     case SET_APPLICATION_DATA:
-  //       return {
-  //         ...state,
-  //         days: action.days,
-  //         appointments: action.appointments,
-  //         interviewers: action.interviewers,
-  //       };
-  //     case SET_INTERVIEW: {
-  //       const id = action.id;
-  //       const interview = action.interview;
-
-  //       const appointment = {
-  //         ...state.appointments[id],
-  //         interview: interview ? { ...interview } : null,
-  //       };
-
-  //       const appointments = {
-  //         ...state.appointments,
-  //         [id]: appointment,
-  //       };
-
-
-  //       const dayObj = state.days.find(day => day.name === state.day);
-  //       const spots = updatedSpots(dayObj, appointments);
-  //       const day = {...dayObj, spots};
-
-  //       const UpdatedDays = state.days.map(d => day.name === state.day ? day : d);
-
-  //       return {
-  //         ...state,
-  //         appointments,
-  //         UpdatedDays
-  //       };
-  //     }
-  //     default:
-  //       throw new Error(
-  //         `Tried to reduce with unsupported action type: ${action.type}`
-  //       );
-  //   }
-  // }
+  
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const setDay = day => dispatch({ type: SET_DAY, day });
